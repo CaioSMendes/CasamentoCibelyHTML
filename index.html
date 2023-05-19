@@ -75,7 +75,24 @@
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
 							<h1>Felipe &amp; Cibely</h1>
 							<h2>Estamos Casando</h2>
-							<div class="simply-countdown simply-countdown-one"></div>
+							  <div id="countdown" class="simply-countdown simply-countdown-one">
+								<div class="simply-section simply-days-section">
+								  <span class="simply-amount" id="days"></span>
+								  <span class="simply-word">dia(s)</span>
+								</div>
+								<div class="simply-section simply-hours-section">
+								  <span class="simply-amount" id="hours"></span>
+								  <span class="simply-word">hora(s)</span>
+								</div>
+								<div class="simply-section simply-minutes-section">
+								  <span class="simply-amount" id="minutes"></span>
+								  <span class="simply-word">minuto(s)</span>
+								</div>
+								<div class="simply-section simply-seconds-section">
+								  <span class="simply-amount" id="seconds"></span>
+								  <span class="simply-word">segundo(s)</span>
+								</div>
+							  </div>
 							<p><a href="#savethedate" class="btn btn-default btn-sm">Save the date</a></p>
 						</div>
 					</div>
@@ -451,23 +468,54 @@
 	<script src="js/main.js"></script>
 
 	<script>
-    var d = new Date(new Date().getTime() + 361 * 120 * 120 * 2000);
+			 // Define a data-alvo da contagem regressiva
+			 var targetDate = new Date('2023-06-24T00:00:00Z');
 
-    // default example
-    simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-    });
+			// Atualiza a contagem regressiva a cada segundo
+			var countdown = setInterval(function() {
+			// Obtém a data e hora atual
+			var now = new Date().getTime();
 
-    //jQuery example
-    $('#simply-countdown-losange').simplyCountdown({
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        enableUtc: false
-    });
-</script>
+			// Calcula a diferença entre a data-alvo e a data atual
+			var difference = targetDate - now;
+
+			// Calcula os dias, horas, minutos e segundos restantes
+			var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+			// Atualiza os elementos HTML com os valores da contagem regressiva
+			document.getElementById('days').textContent = days;
+			document.getElementById('hours').textContent = hours;
+			document.getElementById('minutes').textContent = minutes;
+			document.getElementById('seconds').textContent = seconds;
+
+			// Verifica se a contagem regressiva chegou ao fim
+			if (difference < 0) {
+				clearInterval(countdown);
+				document.getElementById('countdown').textContent = 'Contagem regressiva finalizada!';
+			}
+			}, 1000);
+				var d = new Date(new Date().getTime() + 361 * 120 * 120 * 2000);
+
+				// default example
+				simplyCountdown('.simply-countdown-one', {
+					year: d.getFullYear(),
+					month: d.getMonth() + 1,
+					day: d.getDate()
+				});
+
+				//jQuery example
+				$('#simply-countdown-losange').simplyCountdown({
+					year: d.getFullYear(),
+					month: d.getMonth() + 1,
+					day: d.getDate(),
+					enableUtc: false
+				});
+		</script>
+
+
 
 	</body>
 </html>
